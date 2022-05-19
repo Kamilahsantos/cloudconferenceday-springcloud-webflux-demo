@@ -1,0 +1,56 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.0'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'org.asciidoctor.convert' version '1.5.8'
+	id 'java'
+}
+
+group = 'com.cloudconferenceday'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/snapshot' }
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+	set('springCloudVersion', "2021.0.3-SNAPSHOT")
+	set('snippetsDir', file("build/generated-snippets"))
+
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive:2.6.7'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux:2.6.7'
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:3.1.2'
+	implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: '3.0.1'
+	compileOnly 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
+	testImplementation 'io.projectreactor:reactor-test:3.4.18'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-webtestclient:2.0.6.RELEASE'
+
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.named('asciidoctor') {
+	inputs.dir snippetsDir
+	dependsOn test
+}

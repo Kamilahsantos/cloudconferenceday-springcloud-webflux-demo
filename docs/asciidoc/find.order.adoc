@@ -1,0 +1,14 @@
+==== Busca ordem pelo id
+
+Realiza a busca de uma ordem pelo id
+
+
+*Requisição*
+
+include::{snippets}/find-order-by-id/curl-request.adoc[]
+include::{snippets}/find-order-by-id/http-request.adoc[]
+
+*Resposta*
+
+include::{snippets}/find-order-by-id/http-response.adoc[]
+include::{snippets}/find-order-by-id/response-body.adoc[]
